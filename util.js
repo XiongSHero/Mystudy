@@ -25,7 +25,14 @@ var util = (function (){
             var current = node.className || "";
             node.className = (" " + current + " ").replace(" " + className + " "," ").trim();
         },
-/*         emitter:{
+        inherit: function (Target, Origin) {
+            var Buffer = function (){};
+            Buffer.prototype = Origin.prototype;
+            Target.prototype = new Buffer();
+            Target.prototype.constructor = Target;
+            Target.prototype.super_class = Origin;
+        },
+        emitter:{
             on: function (event, fn) {
                 var handles = this._handles || (this._handles = {}),
                   calls = handles[event] || (handles[event] = []);
@@ -62,6 +69,6 @@ var util = (function (){
                 }
                 return this;
             }
-        } */
+        }
     }
 })();
