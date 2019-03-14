@@ -21,6 +21,17 @@ var util = (function (){
                 node.className = current ? (current + " " + className) : className;
             }
         },
+        // bind源码实现 1保存this 2 传参 3 构造函数
+        bind: function (context) {
+              var self = this;
+              var args = [].slice.call(arguments, 1);
+              var bound = function () {
+                var bindArgs = [].slice.call(arguments)
+                self.apply(this instanceof self ? this : context , args.concat(bindArgs))
+              }
+              bound.prototype = self.prototype
+              return bound
+            }
         delClass: function (node, className) {
             var current = node.className || "";
             node.className = (" " + current + " ").replace(" " + className + " "," ").trim();
@@ -44,7 +55,7 @@ var util = (function (){
                 if(!this._handles) return;
 
                 var handles =this._handles, calls;
-                
+
                 if(calls = handles[event]) {
                     if(!fn){
                         handles[event] = [];
@@ -58,7 +69,7 @@ var util = (function (){
                         }
                     }
                 }
-              return this;  
+              return this;
             },
             emit: function (event) {
                 var args = [].slice.call(arguments, 1),
