@@ -55,7 +55,7 @@ var util = (function (){
             var bStop = true;// 假设所有的值都到达目标点
             for(var attr in json){
                 var pos = 0;
-                pos = attr == "opacity" ? Math.round(parseFloat(getStyle(obj, attr))*100) : parseInt(getStyle(obj, attr));
+                pos = attr == "opacity" ? Math.round(parseFloat(this.getStyle(obj, attr))*100) : parseInt(this.getStyle(obj, attr));
                 var speed = (json[attr] - pos)/20;
                 speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
                 if(pos != json[attr]){
