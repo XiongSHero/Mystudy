@@ -21,6 +21,14 @@ var util = (function (){
                 node.className = current ? (current + " " + className) : className;
             }
         },
+        // new 关键字的实现 参数（构造函数，构造函数的参数）
+        Mnew: function () {
+          var constructor = Array.prototype.shift.call(arguments);
+            var obj = Object.create(constructor.prototype);
+            // obj.__proto__ = constructor.prototype;
+            var result = constructor.call(obj, arguments);
+            return typeof result ? result || obj : obj;
+        },
         // bind源码实现 1保存this 2 传参 3 构造函数
         bind: function (context) {
               var self = this;
