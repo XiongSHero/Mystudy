@@ -35,7 +35,6 @@ var util = (function() {
         target = arguments[i] || {};
         i++;
       }
-
       // Handle case when target is a string or something (possible in deep copy)
       if (typeof target !== "object" && !isFunction(target)) {
         target = {};
@@ -59,7 +58,7 @@ var util = (function() {
             if (
               deep &&
               copy &&
-              (jQuery.isPlainObject(copy) ||
+              ({}.toString.call(copy) === '[object Object]' ||
                 (copyIsArray = Array.isArray(copy)))
             ) {
               src = target[name];
@@ -67,7 +66,7 @@ var util = (function() {
               // Ensure proper type for the source value
               if (copyIsArray && !Array.isArray(src)) {
                 clone = [];
-              } else if (!copyIsArray && !jQuery.isPlainObject(src)) {
+              } else if (!copyIsArray && !{}.toString.call(src) === '[object Object]') {
                 clone = {};
               } else {
                 clone = src;
@@ -75,7 +74,7 @@ var util = (function() {
               copyIsArray = false;
 
               // Never move original objects, clone them
-              target[name] = jQuery.extend(deep, clone, copy);
+              target[name] = this.extend(deep, clone, copy);
 
               // Don't bring in undefined values
             } else if (copy !== undefined) {
@@ -87,14 +86,6 @@ var util = (function() {
 
       // Return the modified object
       return target;
-    },
-    /* 简单值复制 */
-    extend: function(o1, o2) {
-      for (var i in o2) {
-        if (o1[i] == undefined) {
-          o1[i] = o2[i];
-        }
-      }
     },
     /* 添加元素类名 */
     addClass: function(node, className) {
