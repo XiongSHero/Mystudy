@@ -10,6 +10,37 @@ var util = (function() {
       div.innerHTML = str;
       return div.children[0];
     },
+    /* 防抖（频繁触发事件时，控制频率） */
+    throttle: function (func, wait, option) {
+      var context,args,lastTime = 0, now = Date.now(), remaining, timeout = null, result;
+      if(!option) option = {};
+      var later = function () {
+          lastTime = option.training === false ? 0 : Date.now();
+          timeout = null;
+          result = func.apply(context, args);
+          if (!timeout) context = args = null
+      }
+      return function () {
+        if(!lastTime && option.leading === false) {
+          lastTime = now;
+        }
+        remaining = wait - (now - lastTime);
+        context = this;
+        args = arguments;
+        if(remaining <= 0){
+          if (timeout) {
+            clearTimeout(timeout);
+            timeout = null;
+          }
+          lastTime = now;
+          result = func.apply(context, args);
+          if (!timeout) context = args = null;
+        } else if(!timeout && option.leading !== false) {
+          timeout = setTimeout(later, remaining);
+        }
+        return result;
+      }
+  },
     /* jQuery 复制
      *参数 （可选） Boolean true 深复制； false 浅复制
      * 参数 复制对象 数组或者对象

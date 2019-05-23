@@ -36,7 +36,7 @@ import {
 import {
   iconfontUrl,
   iconfontVersion
-} from '@/config/env'
+} from './config/env'
 
 import '@/icons' // icon
 
